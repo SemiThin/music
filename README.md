@@ -19,6 +19,6 @@ vim frontend/utils/api.js
 source music.mysql
 ```
 
-![image](images/1.png)
-![image](images/2.png)
-![image](images/3.png)
+<image width="340" src="images/1.png"/>
+<image width="340" src="images/2.png"/>
+<image width="340" src="images/3.png"/>

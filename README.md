@@ -18,3 +18,7 @@ vim frontend/utils/api.js
 # 记得修改source字段和cover字段的URL
 source music.mysql
 ```
+
+![image](images/1.png)
+![image](images/2.png)
+![image](images/3.png)

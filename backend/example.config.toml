@@ -1,0 +1,8 @@
+APP_DEBUG = false
+
+[mysql]
+host = "mysql"
+port = "3306"
+user = "root"
+password = "root"
+database = "music"

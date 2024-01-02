@@ -1,0 +1,75 @@
+<!--index.wxml-->
+<import src="../../assets/svg-icon/index.wxml"/>
+<navigation-bar title="音乐播放器" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+<movable-area class="scrollarea">
+  <movable-view class="player-container" direction="vertical" inertia out-of-bounds>
+    <view class="player-details">
+      <image class="player-avatar" src="{{currentSong.album.cover}}" mode="aspectFill" />
+      <view class="list-icon" bindtap="showList" hover-start-time="0" hover-class="tap-class">
+        <template is="svg-icon" data="{{ src: icon.listIcon }}"/>
+      </view>
+      <view class="player-info">
+        <text class="player-author">{{currentSong.album.singer}}</text>
+        <text class="player-name">{{currentSong.name}}</text>
+        <text class="player-song"></text>
+      </view>
+    </view>
+    <slider class="player-slider" value="{{playerTime}}" bindchange="slider1change" left-icon="cancel" right-icon="success_no_circle" block-color="rgba(0,0,0,0.8)" block-size="12" backgroundColor="rgba(0,0,0,0.28)" activeColor="rgba(0,0,0,0.8)" max="{{duration}}" />
+    <view class="slider-wrap">
+      <text class="start-time">{{util.startTime(playerTime)}}</text>
+      <text class="end-time">{{util.endTime(playerTime, currentSong.duration)}}</text>
+    </view>
+    <view class="button-list">
+      <view class="button-wrap" bindtap="nextPlay" data-next="0" hover-start-time="0" hover-class="tap-class">
+        <template is="svg-icon" data="{{ src: icon.prevIcon }}"/>
+      </view>
+      <view wx:if="{{!play}}" class="button-wrap large-button" data-play="0" bindtap="handlePlay" hover-start-time="0" hover-class="tap-class">
+        <template is="svg-icon" data="{{ src: icon.playIcon }}"/>
+      </view>
+      <view wx:else class="button-wrap large-button" data-play="1" bindtap="handlePlay" hover-start-time="0" hover-class="tap-class">
+        <template is="svg-icon" data="{{ src: icon.pauseIcon }}"/>
+      </view>
+      <view class="button-wrap" bindtap="nextPlay" data-next="1" hover-start-time="0" hover-class="tap-class">
+        <template is="svg-icon" data="{{ src: icon.nextIcon }}"/>
+      </view>
+    </view>
+    <view class="volume-wrap">
+      <template is="svg-icon" data="{{ src: icon.volumeIcon1 }}"/>
+      <slider class="volume-slider" value="{{volume}}" bindchange="volumeChange" left-icon="cancel" right-icon="success_no_circle" block-color="#fff" block-size="14" backgroundColor="rgba(0,0,0,0.28)" activeColor="rgba(0,0,0,0.8)" max="10" />
+      <template is="svg-icon" data="{{ src: icon.volumeIcon2 }}"/>
+    </view>
+  </movable-view>
+</movable-area>
+<view class="player-container-bg"></view>
+<page-container show="{{show}}">
+  <scroll-view class="song-list" scroll-y>
+    <view class="song-item {{ item.id === currentSong.id ? 'current' : '' }}" wx:for="{{songList}}" wx:key="index" bindtap="changeSong" data-index="{{index}}" hover-start-time="0" hover-class="tap-class">
+      <image class="song-avatar" src="{{item.album.cover}}" mode="aspectFill"></image>
+      <text class="song-name">{{item.name}}</text>
+      <text class="song-author">- {{item.album.singer}}</text>
+      <view class="music-icon {{item.id === currentSong.id ? 'show' : 'hide'}}">
+        <template is="svg-icon" data="{{ src: icon.musicIcon }}" />
+      </view>
+    </view>
+  </scroll-view>
+</page-container>
+<wxs module="util">
+function formatNum(num) {
+  var str = parseInt(num).toString()
+  return str[1] ? str : ('0' + str)
+}
+function formatTime(time) {
+  return [formatNum(time / 60), formatNum(time % 60)].join(':')
+}
+function endTime(playerTime, longTime) {
+  return formatTime(longTime - playerTime)
+}
+function startTime(playerTime) {
+  return formatTime(playerTime)
+}
+module.exports = {
+  endTime: endTime,
+  startTime: startTime
+}
+</wxs>
+<wxs src="../../assets/svg-icon/index.wxs" module="icon"/>

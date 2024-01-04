@@ -4,5 +4,5 @@
 *.sublime-workspace
 __MACOSX
 .DS_Store
-./backend/config.toml
-./frontend/project.private.config.json
+backend/config.toml
+frontend/project.private.config.json

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
-	"music/controller"
+	"music/api"
 	"net/http"
 )
 
@@ -29,7 +29,13 @@ func Router() *gin.Engine {
 
 	song := r.Group("/song")
 	{
-		song.POST("/all", controller.Song{}.All)
+		song.POST("/all", api.Song{}.All)
+		song.POST("/list", api.Song{}.List)
+	}
+
+	album := r.Group("/album")
+	{
+		album.POST("/list", api.Album{}.List)
 	}
 
 	return r

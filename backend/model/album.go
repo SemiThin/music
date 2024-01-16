@@ -6,7 +6,8 @@ type Album struct {
 	Singer   string `json:"singer"`
 	SingerId int8   `json:"singer_id"`
 	Cover    string `json:"cover"`
-	Pubdate  int    `json:"pubdate"`
+	Pubtime  int64  `json:"pubtime"`
+	Pubdate  string `json:"pubdate,omitempty"`
 }
 
 func (Album) TableName() string {

@@ -5,7 +5,6 @@ import (
 	"github.com/spf13/viper"
 	"music/api"
 	"music/middleware"
-	"net/http"
 )
 
 func Router() *gin.Engine {
@@ -13,9 +12,6 @@ func Router() *gin.Engine {
 	gin.SetMode(ginModel)
 
 	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-		c.String(http.StatusOK, "hell world")
-	})
 
 	user := r.Group("/user")
 	{
@@ -23,10 +19,6 @@ func Router() *gin.Engine {
 
 		user.Use(middleware.Auth())
 		user.POST("/logout", api.User{}.Logout)
-
-		user.POST("/update", func(c *gin.Context) {
-			c.String(http.StatusOK, "user update")
-		})
 	}
 
 	song := r.Group("/song")

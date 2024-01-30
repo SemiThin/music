@@ -1,31 +1,33 @@
 package router
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"music/api"
+	"music/middleware"
 	"net/http"
 )
 
 func Router() *gin.Engine {
-	viper.SetConfigName("config")
-	viper.SetConfigType("toml")
-	viper.AddConfigPath(".")
-	viperErr := viper.ReadInConfig()
-	if viperErr != nil {
-		fmt.Printf("read database failed: %v", viperErr)
-	}
-
-	appDebug := viper.Get("APP_DEBUG")
-	if appDebug == false {
-		gin.SetMode(gin.ReleaseMode)
-	}
+	ginModel := viper.GetString("gin.model")
+	gin.SetMode(ginModel)
 
 	r := gin.Default()
 	r.GET("/", func(c *gin.Context) {
 		c.String(http.StatusOK, "hell world")
 	})
+
+	user := r.Group("/user")
+	{
+		user.POST("/login", api.User{}.Login)
+
+		user.Use(middleware.Auth())
+		user.POST("/logout", api.User{}.Logout)
+
+		user.POST("/update", func(c *gin.Context) {
+			c.String(http.StatusOK, "user update")
+		})
+	}
 
 	song := r.Group("/song")
 	{

@@ -1,4 +1,6 @@
-APP_DEBUG = false
+[gin]
+model = "release"
+jwt = "cc8464bab9e52873a05983532e8b4060"
 
 [mysql]
 host = "mysql"

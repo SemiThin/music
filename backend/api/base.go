@@ -1,6 +1,8 @@
 package api
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -23,7 +25,7 @@ type Paging struct {
 	Size int `json:"size" binding:"omitempty,gte=1,lte=20"`
 }
 
-func Response(code int, data interface{}, msg string, c *gin.Context) {
+func Response(code int, data any, msg string, c *gin.Context) {
 	json := &JsonStruct{Code: code, Data: data, Msg: msg}
 	c.JSON(http.StatusOK, json)
 }
@@ -44,4 +46,11 @@ func TimeTemplate(format string) string {
 	}
 
 	return timeTemplate
+}
+
+func MD5(v string) string {
+	d := []byte(v)
+	m := md5.New()
+	m.Write(d)
+	return hex.EncodeToString(m.Sum(nil))
 }
